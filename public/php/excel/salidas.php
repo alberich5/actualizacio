@@ -6,7 +6,7 @@
 	$fecha=$_GET['fecha'];
 	
 	//Consulta
-	$sql = "SELECT articulo.idarticulo,articulo.nombre,articulo.unidad,SUM(detalle_ingreso.cantidad) as total,detalle_ingreso.fecha
+	$query = "SELECT articulo.idarticulo,articulo.nombre,articulo.unidad,SUM(detalle_ingreso.cantidad) as total,detalle_ingreso.fecha
 FROM articulo INNER JOIN detalle_ingreso ON (articulo.idarticulo = detalle_ingreso.idarticulo)
 WHERE detalle_ingreso.fecha='".$fecha."' group by articulo.idarticulo,detalle_ingreso.cantidad,detalle_ingreso.fecha";
 	$sql = $conn->prepare($query);
