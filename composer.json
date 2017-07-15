@@ -1,6 +1,6 @@
 {
     "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "description": "Proycto de Almacen de laravel de la Pabic.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
