@@ -6,11 +6,11 @@
 	$fecha=$_GET['fecha'];
 	
 	//Consulta
-	$sql = "SELECT a.nombre,a.unidad,dv.idarticulo,SUM(dv.cantidad) as total from detalle_venta AS dv
-	RIGHT JOIN articulo AS a ON a.idarticulo=dv.idarticulo
-	WHERE DATE(dv.fecha)='".$fecha."'
-	GROUP BY a.idarticulo;";
-	$resultado = $mysqli->query($sql);
+	$sql = "SELECT articulo.idarticulo,articulo.nombre,articulo.unidad,SUM(detalle_ingreso.cantidad) as total,detalle_ingreso.fecha
+FROM articulo INNER JOIN detalle_ingreso ON (articulo.idarticulo = detalle_ingreso.idarticulo)
+WHERE detalle_ingreso.fecha='".$fecha."' group by articulo.idarticulo,detalle_ingreso.cantidad,detalle_ingreso.fecha";
+	$sql = $conn->prepare($query);
+	$resultado=$sql->execute();
 	$fila = 7; //Establecemos en que fila inciara a imprimir los datos
 	
 	$gdImage = imagecreatefrompng('images/logito.png');//Logotipo
