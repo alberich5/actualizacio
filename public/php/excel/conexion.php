@@ -1,6 +1,10 @@
 <?php	
-//conexion de postgres
-$usuario = 'postgres';
-$password = 'jarvis56';
-$conn = new PDO('pgsql:host=localhost;port=5433;dbname=prueba2', $usuario, $password);
+
+
+$strCnx = "host=localhost port=5433 dbname=prueba3 user=postgres password=jarvis56";
+$cnx = pg_connect($strCnx) or die ("Error de conexion. ". pg_last_error());
+echo "Conexion exitosa <hr>";
+
+
+
 ?>
