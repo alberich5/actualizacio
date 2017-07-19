@@ -159,8 +159,7 @@ class IngresoController extends Controller
                     ->get();
                 //convertir mi arrray en una collecion
                 $collection = Collection::make($consulta);
-                dd($collection);
-                $sheet->fromArray($collection);
+                $sheet->fromArray($consulta);
  
             });
         })->export('xls');
