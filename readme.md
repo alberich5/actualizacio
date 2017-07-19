@@ -13,3 +13,4 @@ git init restor de la app
 
 en el rama de suri se suben los cambios de postgres
 y en la rama de subir los cambios normales de la rama en mysql
+los cambios hechos dentro de la rama principla no afectan aka secundaria
