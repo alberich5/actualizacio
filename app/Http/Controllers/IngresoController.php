@@ -14,7 +14,8 @@ use Omar\Ingreso;
 use Omar\Log;
 use Omar\DetalleIngreso;
 use DB;
-
+//libreria necesaria para poder ocupar el excel en laravel
+use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Response;
 use Illuminate\Support\Collection;
@@ -139,5 +140,20 @@ class IngresoController extends Controller
        $ingreso->Estado='C';
        $ingreso->update();
        return Redirect::to('almacen-ingreso');
+    }
+
+    public function excel()
+    {
+       Excel::create('Laravel Excel', function($excel) {
+
+        $excel->sheet('Excel sheet', function($sheet) {
+
+        $sheet->setOrientation('landscape');
+
+        });
+
+        })->export('xls');
+
+        }
     }
 }

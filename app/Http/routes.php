@@ -57,6 +57,8 @@ Route::get('almacen-ingreso-mostrar/{id}', 'IngresoController@show');
 Route::get('almacen-ingreso-editar', 'IngresoController@edit');
 Route::delete('almacen-ingreso-borrar', 'IngresoController@destroy');
 Route::post('almacen-ingreso-store', 'IngresoController@store');
+//ruta encarga de descargar el excel para los ingresos
+Route::get('almacen-ingreso-excel', 'IngresoController@excel');
 
 //ruta de venta
 //Route::resource('ventas/venta','VentaController');
@@ -79,6 +81,9 @@ Route::delete('seguridad-usuario-borrar/{id}', 'UsuarioController@destroy');
 Route::post('seguridad-usuario-store', 'UsuarioController@store');
 Route::patch('seguridad-usuario-update',['uses'=> 'UsuarioController@update', 'as'=> 'seguridad-usuario-update']);
 
+
+Route::get('excel', 'ExcelController@excel');
+
 //ruta de hom de la apliaccion
 Route::get('/home', 'HomeController@index');
 
@@ -92,14 +97,4 @@ Route::auth();
 	
 Route::get('pdf', 'PdfController@invoice');
 
-Route::get('excel', function () {    
-	Excel::create('Laravel Excel', function($excel) {
 
-    $excel->sheet('Excel sheet', function($sheet) {
-
-        $sheet->setOrientation('landscape');
-
-    });
-
-})->export('xls');
-});
