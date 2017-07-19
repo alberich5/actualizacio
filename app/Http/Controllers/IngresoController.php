@@ -147,10 +147,22 @@ class IngresoController extends Controller
     {
          
       Excel::create('Reporte de Ingresos', function($excel) {
-
+            //cambiarle el titulo a la hoja de Excel
+            $excel->setTitle('Reporte de Ingresos del Dia');
             $excel->sheet('Productos', function($sheet) {
+
+            $sheet->cells('A1:D1', function($cells) {
+            //cambiar el color de las celdas
+            $cells->setBackground('#fff000');
+            //cambiar la fuente de la celda
+            $cells->setFontFamily('Calibri');
+            //cambia el tamaño de la fuente
+            $cells->setFontSize(14);
+
+            });                
+
             //Editar el encabezado de la hoja de excel
-            $sheet->row(1, ['Descripcion', 'Unidad', 'Entrada', 'Salida');
+            $sheet->row(1, ['Descripcion', 'Unidad', 'Entrada', 'Salida']);
              $consulta = Articulo::select('nombre','unidad')
                ->get();
 
