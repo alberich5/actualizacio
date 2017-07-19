@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Omar\Http\Requests\IngresoFormRequest;
 use Omar\Ingreso;
+use Omar\Articulo;
 use Omar\Log;
 use Omar\DetalleIngreso;
 use DB;
@@ -144,16 +145,23 @@ class IngresoController extends Controller
 
     public function excel()
     {
-       Excel::create('Laravel Excel', function($excel) {
+         
+      Excel::create('Reporte de Ingresos', function($excel) {
 
-        $excel->sheet('Excel sheet', function($sheet) {
+            $excel->sheet('Productos', function($sheet) {
 
-        $sheet->setOrientation('landscape');
 
-        });
 
+            $sheet->row(1, ['Número', 'Nombre', 'Email', 'Fecha de Creación', 'Fecha de Actualización']);
+             $consulta = Articulo::select('nombre','unidad')
+               ->get();
+
+
+                $sheet->fromArray($consulta);
+
+            });
         })->export('xls');
 
-        }
+        
     }
 }
