@@ -19,7 +19,7 @@ use DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Response;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Collection as Collection;
 
 class IngresoController extends Controller
 {
@@ -145,30 +145,23 @@ class IngresoController extends Controller
 
     public function excel()
     {
+   
          
-      Excel::create('Reporte de Ingresos', function($excel) {
-            //cambiarle el titulo a la hoja de Excel
-            $excel->setTitle('Reporte de Ingresos del Dia');
+      Excel::create('Laravel Excel', function($excel) {
+ 
             $excel->sheet('Productos', function($sheet) {
-
-            $sheet->cells('A1:D1', function($cells) {
-            //cambiar el color de las celdas
-            $cells->setBackground('#fff000');
-            //cambiar la fuente de la celda
-            $cells->setFontFamily('Calibri');
-            //cambia el tamaño de la fuente
-            $cells->setFontSize(14);
-
-            });                
-
-            //Editar el encabezado de la hoja de excel
-            $sheet->row(1, ['Descripcion', 'Unidad', 'Entrada', 'Salida']);
-             $consulta = Articulo::select('nombre','unidad')
-               ->get();
-
-
-                $sheet->fromArray($consulta);
-
+ 
+                $consulta=DB::table('articulo as a')
+                    ->join('detalle_ingreso as di','di.idarticulo','=','a.idarticulo')
+                    ->select('a.idarticulo','a.nombre','a.unidad','di.fecha',DB::raw('sum(di.cantidad) as total'))
+                    ->where('di.fecha','=','2017-07-15')
+                    ->groupBy('a.idarticulo','a.nombre','a.unidad','di.fecha','di.cantidad')
+                    ->get();
+                //convertir mi arrray en una collecion
+                $collection = Collection::make($consulta);
+                dd($collection);
+                $sheet->fromArray($collection);
+ 
             });
         })->export('xls');
 
