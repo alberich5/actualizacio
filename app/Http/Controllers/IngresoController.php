@@ -149,9 +149,7 @@ class IngresoController extends Controller
       Excel::create('Reporte de Ingresos', function($excel) {
 
             $excel->sheet('Productos', function($sheet) {
-
-
-
+            //Editar el encabezado de la hoja de excel
             $sheet->row(1, ['Número', 'Nombre', 'Email', 'Fecha de Creación', 'Fecha de Actualización']);
              $consulta = Articulo::select('nombre','unidad')
                ->get();
