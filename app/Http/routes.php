@@ -91,3 +91,15 @@ Route::auth();
 
 	
 Route::get('pdf', 'PdfController@invoice');
+
+Route::get('excel', function () {    
+	Excel::create('Laravel Excel', function($excel) {
+
+    $excel->sheet('Excel sheet', function($sheet) {
+
+        $sheet->setOrientation('landscape');
+
+    });
+
+})->export('xls');
+});
