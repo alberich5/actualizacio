@@ -150,7 +150,7 @@ class IngresoController extends Controller
 
             $excel->sheet('Productos', function($sheet) {
             //Editar el encabezado de la hoja de excel
-            $sheet->row(1, ['Número', 'Nombre', 'Email', 'Fecha de Creación', 'Fecha de Actualización']);
+            $sheet->row(1, ['Descripcion', 'Unidad', 'Entrada', 'Salida');
              $consulta = Articulo::select('nombre','unidad')
                ->get();
 
