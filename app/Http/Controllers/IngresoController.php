@@ -160,9 +160,10 @@ class IngresoController extends Controller
                 //consulta 2 para generar los reportes  de excel
                 $consulta2= Articulo::join('detalle_ingreso as di','di.idarticulo','=','articulo.idarticulo')
                 ->select('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha',DB::raw('sum(di.cantidad) as total'))
+                ->where('di.fecha','=','2017-07-15')
                 ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha','di.cantidad')
                 ->get();
-
+                dd($consulta2);
                 $collection = Collection::make($consulta2);
                 //dd($collection);
                 $sheet->fromArray($collection);

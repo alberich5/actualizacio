@@ -144,22 +144,27 @@ class VentaController extends Controller
      public function excel()
     {
 
-         
+    //optengo la fecha actual con carboi
+    $date = Carbon::now();
+    $date = $date->format('Y-m-d');
+  
       Excel::create('Reporte de Salidas', function($excel) {
  
             $excel->sheet('Salidas', function($sheet) {
                 
                 $consulta=DB::table('articulo as a')
-                    ->join('detalle_ingreso as di','di.idarticulo','=','a.idarticulo')
-                    ->select('a.idarticulo','a.nombre','a.unidad','di.fecha',DB::raw('sum(di.cantidad) as total'))
-                    ->where('di.fecha','=','2017-07-15')
-                    ->groupBy('a.idarticulo','a.nombre','a.unidad','di.fecha','di.cantidad')
+                    ->join('detalle_venta as dv','dv.idarticulo','=','a.idarticulo')
+                    ->select('a.idarticulo','a.nombre','a.unidad','dv.fecha',DB::raw('sum(dv.cantidad) as total'))
+                    ->where('dv.fecha','=','2017-07-15')
+                    ->groupBy('a.idarticulo','a.nombre','a.unidad','dv.fecha','dv.cantidad')
                     ->first();
+
                 //consulta 2 para generar los reportes  de excel
-                $consulta2= Articulo::join('detalle_ingreso as di','di.idarticulo','=','articulo.idarticulo')
-                ->select('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha',DB::raw('sum(di.cantidad) as total'))
-                ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha','di.cantidad')
+                $consulta2= Articulo::join('detalle_ingreso as dv','dv.idarticulo','=','articulo.idarticulo')
+                ->select('articulo.idarticulo','articulo.nombre','articulo.unidad','dv.fecha',DB::raw('sum(dv.cantidad) as total'))
+                ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','dv.fecha','dv.cantidad')
                 ->get();
+                dd($consulta2);
 
                 $collection = Collection::make($consulta2);
                 //dd($collection);
