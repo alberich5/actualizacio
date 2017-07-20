@@ -44,7 +44,6 @@ class IngresoController extends Controller
             ->groupBy('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto','i.estado')
             ->paginate(7);
 
-            
             return view('administrador.compras.ingreso.index',["ingresos"=>$ingresos,"searchText"=>$query]);
         }
     }
@@ -63,7 +62,8 @@ class IngresoController extends Controller
     //funcion que permite guardar un ingreso
     public function store (IngresoFormRequest $request)
     {
-       
+        $date = Carbon::now();
+        $date = $date->format('Y-m-d');
      
      	   	 DB::beginTransaction();
 	         $ingreso = new Ingreso;
@@ -92,6 +92,7 @@ class IngresoController extends Controller
 	             $detalle->cantidad= $cantidad[$cont];
 	             $detalle->precio_compra= $precio_compra[$cont];
                  $detalle->precio_venta= $precio_compra[$cont];
+                 $detalle->fecha= $date;
 	             $detalle->save();
 
 
@@ -142,10 +143,9 @@ class IngresoController extends Controller
        $ingreso->update();
        return Redirect::to('almacen-ingreso');
     }
-
+    //funcion para descargar los exceles de la plantilla
     public function excel()
     {
-
 
       Excel::create('Reporte de Ingresos', function($excel) {
  
@@ -157,13 +157,16 @@ class IngresoController extends Controller
                     ->where('di.fecha','=','2017-07-15')
                     ->groupBy('a.idarticulo','a.nombre','a.unidad','di.fecha','di.cantidad')
                     ->first();
+                    //se esta llamdo la fecha actual en el controlador
+                    $date = Carbon::now();
+                    $date = $date->format('Y-m-d');
                 //consulta 2 para generar los reportes  de excel
                 $consulta2= Articulo::join('detalle_ingreso as di','di.idarticulo','=','articulo.idarticulo')
                 ->select('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha',DB::raw('sum(di.cantidad) as total'))
-                ->where('di.fecha','=','2017-07-15')
+                ->where('di.fecha','=', $date)
                 ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha','di.cantidad')
                 ->get();
-                dd($consulta2);
+                //dd($consulta2);
                 $collection = Collection::make($consulta2);
                 //dd($collection);
                 $sheet->fromArray($collection);
