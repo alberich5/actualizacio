@@ -10,12 +10,11 @@
 </div>
 <div class="row">
 	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-		<form action="{{asset('php/excel/kardes.php')}}" method="get" accept-charset="utf-8">
-				{!! Form::label('kardes del mes:') !!}
-	    		{!! Form::select('mes', ['JULIO' => 'JULIO'],null,['class'=>'form-control']) !!}
-				<input type="submit" name="" value="Descargar" class="btn btn-primary">
-				
-		</form>	
+		{!!Form::open(array('url'=>'reporte-kardex-excel','method'=>'GET','autocomplete'=>'off'))!!}
+			{{Form::token()}}
+	
+		<i class="fa fa-download" aria-hidden="true"><input type="submit" name="" value="excel" class=" btn btn-info"></i>
+		{!!Form::close()!!}	
 	</div>
 </div>
 @endsection
