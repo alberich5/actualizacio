@@ -147,9 +147,9 @@ class IngresoController extends Controller
     {
    
          
-      Excel::create('Laravel Excel', function($excel) {
+      Excel::create('Reporte de Ingresos', function($excel) {
  
-            $excel->sheet('Productos', function($sheet) {
+            $excel->sheet('Ingresos', function($sheet) {
  
                 $consulta=DB::table('articulo as a')
                     ->join('detalle_ingreso as di','di.idarticulo','=','a.idarticulo')
@@ -157,6 +157,7 @@ class IngresoController extends Controller
                     ->where('di.fecha','=','2017-07-15')
                     ->groupBy('a.idarticulo','a.nombre','a.unidad','di.fecha','di.cantidad')
                     ->get();
+                    dd($consulta);
                 //convertir mi arrray en una collecion
                 $collection = Collection::make($consulta);
                 $sheet->fromArray($consulta);
