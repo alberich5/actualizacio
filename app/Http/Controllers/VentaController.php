@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Omar\Http\Requests\VentaFormRequest;
 use Omar\Venta;
+use Omar\Articulo;
 use Omar\DetalleVenta;
 use DB;
-
+//libreria necesaria para poder ocupar el excel en laravel
+use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Response;
 use Illuminate\Support\Collection;
@@ -137,6 +139,36 @@ class VentaController extends Controller
         $venta->Estado='C';
         $venta->update();
         return Redirect::to('almacen-venta');
+    }
+
+     public function excel()
+    {
+
+         
+      Excel::create('Reporte de Salidas', function($excel) {
+ 
+            $excel->sheet('Salidas', function($sheet) {
+                
+                $consulta=DB::table('articulo as a')
+                    ->join('detalle_ingreso as di','di.idarticulo','=','a.idarticulo')
+                    ->select('a.idarticulo','a.nombre','a.unidad','di.fecha',DB::raw('sum(di.cantidad) as total'))
+                    ->where('di.fecha','=','2017-07-15')
+                    ->groupBy('a.idarticulo','a.nombre','a.unidad','di.fecha','di.cantidad')
+                    ->first();
+                //consulta 2 para generar los reportes  de excel
+                $consulta2= Articulo::join('detalle_ingreso as di','di.idarticulo','=','articulo.idarticulo')
+                ->select('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha',DB::raw('sum(di.cantidad) as total'))
+                ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha','di.cantidad')
+                ->get();
+
+                $collection = Collection::make($consulta2);
+                //dd($collection);
+                $sheet->fromArray($collection);
+ 
+            });
+        })->export('xls');
+
+        
     }
 
 

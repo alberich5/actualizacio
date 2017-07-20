@@ -13,10 +13,13 @@
 	</div>
 </div>
 <div id="mover">
-<form action="{{asset('php/excel/salidas.php')}}" method="get" accept-charset="utf-8">
-	<input type="hidden" name="fecha" value="<?php echo date("Y-m-d"); ?>">
+{!!Form::open(array('url'=>'almacen-venta-excel','method'=>'GET','autocomplete'=>'off'))!!}
+{{Form::token()}}
+	
 	<i class="fa fa-download" aria-hidden="true"><input type="submit" name="" value="excel" class=" btn btn-info"></i>
-</form>
+{!!Form::close()!!}	
+			
+</div>
 			
 </div>
 <div class="row" style="background-color: #FFEFD5;">

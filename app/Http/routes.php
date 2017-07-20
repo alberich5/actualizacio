@@ -68,6 +68,8 @@ Route::get('almacen-venta-mostrar/{id}', 'VentaController@show');
 Route::get('almacen-venta-editar', 'VentaController@edit');
 Route::get('almacen-venta-borrar/{id}', 'VentaController@destroy');
 Route::post('almacen-venta-store', 'VentaController@store');
+//ruta encarga de descargar el excel para los ingresos
+Route::get('almacen-venta-excel', 'VentaController@excel');
 
 //ruta de venta
 //Route::resource('reporte/kardex','ReporteController');

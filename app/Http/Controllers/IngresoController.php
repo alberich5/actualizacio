@@ -145,30 +145,24 @@ class IngresoController extends Controller
 
     public function excel()
     {
-   
-         
+
+
       Excel::create('Reporte de Ingresos', function($excel) {
  
             $excel->sheet('Ingresos', function($sheet) {
- 
+                
                 $consulta=DB::table('articulo as a')
                     ->join('detalle_ingreso as di','di.idarticulo','=','a.idarticulo')
                     ->select('a.idarticulo','a.nombre','a.unidad','di.fecha',DB::raw('sum(di.cantidad) as total'))
                     ->where('di.fecha','=','2017-07-15')
                     ->groupBy('a.idarticulo','a.nombre','a.unidad','di.fecha','di.cantidad')
                     ->first();
-
-
-
+                //consulta 2 para generar los reportes  de excel
                 $consulta2= Articulo::join('detalle_ingreso as di','di.idarticulo','=','articulo.idarticulo')
                 ->select('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha',DB::raw('sum(di.cantidad) as total'))
                 ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha','di.cantidad')
                 ->get();
-                //dd($consulta2);
 
-                    //$articulo = Articulo::all();
-                    //dd($articulo);
-                //convertir mi arrray en una collecion
                 $collection = Collection::make($consulta2);
                 //dd($collection);
                 $sheet->fromArray($collection);
