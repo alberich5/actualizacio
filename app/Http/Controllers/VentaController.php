@@ -65,6 +65,8 @@ class VentaController extends Controller
     //funcion de ventas
     public function store (VentaFormRequest $request)
     {
+        $date = Carbon::now();
+        $date = $date->format('Y-m-d');
      try{
          DB::beginTransaction();
          $venta=new Venta;
@@ -92,6 +94,7 @@ class VentaController extends Controller
              $detalle->idarticulo= $idarticulo[$cont];
              $detalle->cantidad= $cantidad[$cont];
              $detalle->precio_venta= $precio_venta[$cont];
+             $detalle->fecha= $date;
              $detalle->save();
              $cont=$cont+1;            
          }
@@ -158,13 +161,16 @@ class VentaController extends Controller
                     ->where('dv.fecha','=','2017-07-15')
                     ->groupBy('a.idarticulo','a.nombre','a.unidad','dv.fecha','dv.cantidad')
                     ->first();
-
+                //se esta llamdo la fecha actual en el controlador
+                    $date = Carbon::now();
+                    $date = $date->format('Y-m-d');
                 //consulta 2 para generar los reportes  de excel
                 $consulta2= Articulo::join('detalle_ingreso as dv','dv.idarticulo','=','articulo.idarticulo')
                 ->select('articulo.idarticulo','articulo.nombre','articulo.unidad','dv.fecha',DB::raw('sum(dv.cantidad) as total'))
+                ->where('dv.fecha','=', $date)
                 ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','dv.fecha','dv.cantidad')
                 ->get();
-                dd($consulta2);
+                //dd($consulta2);
 
                 $collection = Collection::make($consulta2);
                 //dd($collection);
