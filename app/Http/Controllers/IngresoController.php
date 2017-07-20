@@ -157,11 +157,21 @@ class IngresoController extends Controller
                     ->where('di.fecha','=','2017-07-15')
                     ->groupBy('a.idarticulo','a.nombre','a.unidad','di.fecha','di.cantidad')
                     ->first();
-                    $articulo = Articulo::all();
-                    dd($consulta);
+
+
+
+                $consulta2= Articulo::join('detalle_ingreso as di','di.idarticulo','=','articulo.idarticulo')
+                ->select('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha',DB::raw('sum(di.cantidad) as total'))
+                ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','di.fecha','di.cantidad')
+                ->get();
+                //dd($consulta2);
+
+                    //$articulo = Articulo::all();
+                    //dd($articulo);
                 //convertir mi arrray en una collecion
-                $collection = Collection::make($consulta);
-                $sheet->fromArray($articulo);
+                $collection = Collection::make($consulta2);
+                //dd($collection);
+                $sheet->fromArray($collection);
  
             });
         })->export('xls');
