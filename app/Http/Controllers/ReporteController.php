@@ -3,10 +3,15 @@
 namespace Omar\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 use Omar\Http\Requests;
 //libreria necesaria para poder ocupar el excel en laravel
 use Maatwebsite\Excel\Facades\Excel;
+use Omar\Articulo;
+use DB;
+use Carbon\Carbon;
+
 
 class ReporteController extends Controller
 {
