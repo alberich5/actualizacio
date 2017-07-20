@@ -74,6 +74,7 @@ Route::get('almacen-venta-excel', 'VentaController@excel');
 //ruta de venta
 //Route::resource('reporte/kardex','ReporteController');
 Route::get('reporte-kardex', 'ReporteController@index');
+Route::get('reporte-kardex-excel', 'ReporteController@excel');
 
 //Route::resource('seguridad/usuario','UsuarioController');
 Route::get('seguridad-usuario', 'UsuarioController@index');
