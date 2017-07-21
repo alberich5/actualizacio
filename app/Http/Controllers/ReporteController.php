@@ -47,7 +47,7 @@ class ReporteController extends Controller
                 ->where('dv.fecha','=', $date)
                 ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','dv.fecha','dv.cantidad')
                 ->get();
-                //dd($consulta2);
+                dd($consulta2);
 
                 $collection = Collection::make($consulta2);
                 //dd($collection);
