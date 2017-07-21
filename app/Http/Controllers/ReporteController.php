@@ -43,9 +43,9 @@ class ReporteController extends Controller
                     $date = $date->format('Y-m-d');
                 //consulta 2 para generar los reportes  de excel
                 $consulta2= Articulo::join('detalle_ingreso as dv','dv.idarticulo','=','articulo.idarticulo')
-                ->select('articulo.fecha',DB::raw('CONCAT(articulo.nombre,articulo.descripcion) as nombre'),'articulo.unidad','dv.fecha',DB::raw('sum(dv.cantidad) as total'))
+                ->select('articulo.fecha',DB::raw('CONCAT(articulo.nombre,articulo.descripcion) as nombre'),'articulo.unidad','dv.precio_venta',DB::raw('sum(dv.cantidad) as total'))
                 ->where('dv.fecha','=', '2017-07-20')
-                ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','dv.fecha','dv.cantidad')
+                ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','dv.precio_venta','dv.cantidad')
                 ->get();
                 //se esta imprimiendo la consulta generada
                 dd($consulta2);
