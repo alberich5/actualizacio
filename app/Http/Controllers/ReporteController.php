@@ -25,22 +25,40 @@ class ReporteController extends Controller
 
     public function excel()
     {
+        //borrar todos los regsitros de la existencia_final
+         DB::table('existencia_final')->delete();
+         DB::table('existencia_inicial')->delete();
         //obtengo el mes actual
         $date = Carbon::now();
+        $completa = $date->format('Y-m-d');
         $mes = $date->format('m');
     //buscar la informacion del articulo
         $articulo=Articulo::all();
-        dd($articulo[1]->idarticulo);
 
         $cont = 0;
          while($cont < count($articulo)){
             //volco la informacion de articulo ala existencia
         $final=new ExistenciaFinal;
-        $final->idarticulo=$articulo[$cont]->idarticulo;
+        $final->id_articulo=$articulo[$cont]->idarticulo;
         $final->cantidad=$articulo[$cont]->stock;
         $final->mes=$mes;
+        $final->fecha=$completa;
         $final->save();
             $cont=$cont+1;  
+        }
+        //para existencia Inicial
+        if($completa=='2017-'.$mes.'-01'){
+            $cont3 = 0;
+         while($cont3 < count($articulo)){
+            //volco la informacion de articulo ala existencia
+                $inicial=new ExistenciaInicial;
+                $inicial->id_articulo=$articulo[$cont3]->idarticulo;
+                $inicial->cantidad=$articulo[$cont3]->stock;
+                $inicial->mes=$mes;
+                $inicial->fecha=$completa;
+                $inicial->save();
+            $cont3=$cont3+1;  
+            }
         }
     
 
