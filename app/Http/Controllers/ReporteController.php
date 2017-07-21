@@ -30,15 +30,15 @@ class ReporteController extends Controller
         $mes = $date->format('m');
     //buscar la informacion del articulo
         $articulo=Articulo::all();
-        dd($articulo[0]);
-        
+        dd($articulo[1]->idarticulo);
+
         $cont = 0;
          while($cont < count($articulo)){
             //volco la informacion de articulo ala existencia
         $final=new ExistenciaFinal;
-        $final->idarticulo="";
-        $final->cantidad=$mes;
-        $final->mes='';
+        $final->idarticulo=$articulo[$cont]->idarticulo;
+        $final->cantidad=$articulo[$cont]->stock;
+        $final->mes=$mes;
         $final->save();
             $cont=$cont+1;  
         }
