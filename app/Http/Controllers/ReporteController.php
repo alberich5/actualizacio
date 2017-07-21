@@ -27,7 +27,6 @@ class ReporteController extends Controller
     {
         //borrar todos los regsitros de la existencia_final
          DB::table('existencia_final')->delete();
-         DB::table('existencia_inicial')->delete();
         //obtengo el mes actual
         $date = Carbon::now();
         $completa = $date->format('Y-m-d');
@@ -48,6 +47,8 @@ class ReporteController extends Controller
         }
         //para existencia Inicial
         if($completa=='2017-'.$mes.'-01'){
+            //esta sentencia solo aplica si ententa el mismo dia hacer varios click para guardar la existencia Inicial
+            DB::table('existencia_inicial')->where('mes', '=', $mes)->delete();
             $cont3 = 0;
          while($cont3 < count($articulo)){
             //volco la informacion de articulo ala existencia
