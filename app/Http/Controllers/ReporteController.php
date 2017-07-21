@@ -70,6 +70,13 @@ class ReporteController extends Controller
       Excel::create('Reporte del Kardex Final', function($excel) {
  
             $excel->sheet('Kardex2', function($sheet) {
+
+                $sheet->cells('A1:I1', function($cells) {
+                    //estilo de las celdas
+                    $cells->setBackground('#BCF5A9');
+                    $cells->setFontFamily('Calibri');
+                    $cells->setFontSize(12);
+                });
                 
                 //obtengo el mes actual
                 $date = Carbon::now();

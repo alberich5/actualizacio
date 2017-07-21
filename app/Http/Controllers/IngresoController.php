@@ -152,6 +152,7 @@ class IngresoController extends Controller
       Excel::create('Reporte de Ingresos', function($excel) {
  
             $excel->sheet('Ingresos', function($sheet) {
+              
                 
                 $consulta=DB::table('articulo as a')
                     ->join('detalle_ingreso as di','di.idarticulo','=','a.idarticulo')
