@@ -9,6 +9,8 @@ use Omar\Http\Requests;
 //libreria necesaria para poder ocupar el excel en laravel
 use Maatwebsite\Excel\Facades\Excel;
 use Omar\Articulo;
+use Omar\ExistenciaFinal;
+use Omar\ExistenciaInicial;
 use DB;
 use Carbon\Carbon;
 
@@ -23,6 +25,24 @@ class ReporteController extends Controller
 
     public function excel()
     {
+        //obtengo el mes actual
+        $date = Carbon::now();
+        $mes = $date->format('m');
+    //buscar la informacion del articulo
+        $articulo=Articulo::all();
+        dd($articulo[0]);
+        
+        $cont = 0;
+         while($cont < count($articulo)){
+            //volco la informacion de articulo ala existencia
+        $final=new ExistenciaFinal;
+        $final->idarticulo="";
+        $final->cantidad=$mes;
+        $final->mes='';
+        $final->save();
+            $cont=$cont+1;  
+        }
+    
 
     //optengo la fecha actual con carboi
     $date = Carbon::now();
@@ -32,26 +52,21 @@ class ReporteController extends Controller
  
             $excel->sheet('Kardex2', function($sheet) {
                 
-                $consulta=DB::table('articulo as a')
-                    ->join('detalle_venta as dv','dv.idarticulo','=','a.idarticulo')
-                    ->select('a.idarticulo','a.nombre','a.unidad','dv.fecha',DB::raw('sum(dv.cantidad) as total'))
-                    ->where('dv.fecha','=','2017-07-15')
-                    ->groupBy('a.idarticulo','a.nombre','a.unidad','dv.fecha','dv.cantidad')
-                    ->first();
-                //se esta llamdo la fecha actual en el controlador
-                    $date = Carbon::now();
-                    $date = $date->format('Y-m-d');
+                //obtengo el mes actual
+                $date = Carbon::now();
+                $date = $date->format('m');
                 //consulta 2 para generar los reportes  de excel
-                $consulta2= Articulo::join('detalle_ingreso as dv','dv.idarticulo','=','articulo.idarticulo')
-                ->select('articulo.fecha',DB::raw('CONCAT(articulo.nombre,articulo.descripcion) as nombre'),'articulo.unidad','dv.precio_venta',DB::raw('sum(dv.cantidad) as total'))
-                ->where('dv.fecha','=', '2017-07-20')
-                ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','dv.precio_venta','dv.cantidad')
+                $consulta2= Articulo::join('detalle_ingreso as di','di.idarticulo','=','articulo.idarticulo')
+                ->join('existencia_inicial as ex','ex.id_articulo','=','articulo.idarticulo')
+                ->join('existencia_final as ef','ef.id_articulo','=','articulo.idarticulo')
+                ->leftjoin('detalle_venta as det_ven','det_ven.idarticulo','=','articulo.idarticulo')
+                ->select('articulo.fecha',DB::raw('CONCAT(articulo.nombre,articulo.descripcion) as nombre'),'articulo.unidad','di.precio_venta',DB::raw('sum(di.cantidad) as total'),'ex.cantidad as inicial','ef.cantidad as final',DB::raw('count(det_ven.cantidad) as sali'),DB::raw('count(di.cantidad) as ingre'),DB::raw('sum(det_ven.cantidad*di.precio_venta) as total'))
+                ->where('ex.mes','=', $date)
+                ->where('ef.mes','=',$date)
+                ->groupBy('articulo.idarticulo','articulo.nombre','articulo.unidad','di.precio_venta','di.cantidad','ex.cantidad','ef.cantidad','det_ven.idarticulo')
                 ->get();
-                //se esta imprimiendo la consulta generada
-                dd($consulta2);
-
+                //convierto el array en una collecion
                 $collection = Collection::make($consulta2);
-                //dd($collection);
                 $sheet->fromArray($collection);
  
             });
