@@ -71,7 +71,7 @@ class ReporteController extends Controller
  
             $excel->sheet('Kardex2', function($sheet) {
 
-                $sheet->cells('A1:I1', function($cells) {
+                $sheet->cells('A1:I2', function($cells) {
                     //estilo de las celdas
                     $cells->setBackground('#BCF5A9');
                     $cells->setFontFamily('Calibri');
@@ -95,7 +95,7 @@ class ReporteController extends Controller
                 $collection = Collection::make($consulta2);
                 //Se manda la informacion al archivo que lo va a mostrar
                 //$sheet->fromArray($collection);
-                $sheet->loadView('administrador.repo') ->with('array', $collection);;
+                $sheet->loadView('administrador.repo') ->with('collection', $collection);;
  
             });
         })->export('xls');
