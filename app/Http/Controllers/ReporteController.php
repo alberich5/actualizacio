@@ -76,7 +76,6 @@ class ReporteController extends Controller
                     $cells->setBackground('#BCF5A9');
                     $cells->setFontFamily('Calibri');
                     $cells->setFontSize(12);
-                    $cells->setColor('#BCF5A9');
                 });
                 
                 //obtengo el mes actual
@@ -94,7 +93,9 @@ class ReporteController extends Controller
                 ->get();
                 //convierto el array en una collecion
                 $collection = Collection::make($consulta2);
-                $sheet->fromArray($collection);
+                //Se manda la informacion al archivo que lo va a mostrar
+                //$sheet->fromArray($collection);
+                $sheet->loadView('administrador.repo') ->with('array', $collection);;
  
             });
         })->export('xls');
