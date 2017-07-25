@@ -46,6 +46,7 @@ class AuthController extends Controller
         return property_exists($this, 'username') ? $this->username : 'name';
     }
 
+
     /**
      * Get a validator for an incoming registration request.
      *
