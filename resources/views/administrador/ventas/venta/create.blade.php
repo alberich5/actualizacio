@@ -156,6 +156,7 @@ function mostrarValores(){
     idarticulo=datosArticulo[0];
     articulo=$("#pidarticulo option:selected").text();
     cantidad=$("#pcantidad").val();
+    //converir cadena a entero
     var a = parseInt(cantidad)
     descuento=$("#pdescuento").val();
     precio_venta=$("#pprecio_venta").val();
@@ -163,7 +164,6 @@ function mostrarValores(){
 
    if(idarticulo !="" && cantidad!="" && cantidad>0 && descuento!=""  )
    {
-    alert(a);
 
     if(a<stock){
         subtotal[cont]=(cantidad*precio_venta);
