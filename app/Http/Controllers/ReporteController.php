@@ -71,7 +71,7 @@ class ReporteController extends Controller
  
             $excel->sheet('Kardex2', function($sheet) {
 
-                $sheet->cells('A1:I2', function($cells) {
+                $sheet->cells('A1:I1', function($cells) {
                     //estilo de las celdas
                     $cells->setBackground('#BCF5A9');
                     $cells->setFontFamily('Calibri');

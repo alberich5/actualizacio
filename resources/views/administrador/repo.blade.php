@@ -7,22 +7,22 @@
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-condensed table-hover">
-				<thead>
-					<th>Fecha</th>
-					<th>Nombre</th>
-					<th>Unidad</th>
-					<th>Precio</th>
-					<th>Inicio de Mes</th>
-					<th>Entradas</th>
-					<th>Salidas</th>
-					<th>Fin de Mes</th>
-					<th>Costo Final</th>
-				</thead>
+				<tr>
+					<td width="25">Fecha</td>
+					<td>Nombre</td>
+					<td width="11">Unidad</td>
+					<td>Precio</td>
+					<td>Inicio de Mes</td>
+					<td>Entradas</td>
+					<td>Salidas</td>
+					<td>Fin de Mes</td>
+					<td>Costo Final</td>
+				</tr>
                @foreach ($collection as $cole)
 				<tr>
-					<td width="25">{{ $cole->fecha}}</td>
-					<td  valign="middle">{{ $cole->nombre}}</td>
-					<td width="11">{{ $cole->unidad}}</td>
+					<td>{{ $cole->fecha}}</td>
+					<td>{{ $cole->nombre}}</td>
+					<td>{{ $cole->unidad}}</td>
 					<td>{{ $cole->precio_venta}}</td>
 					<td>{{ $cole->inicial}}</td>
 					<td>{{ $cole->ingre}}</td>
