@@ -1,7 +1,8 @@
 <html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <!-- Headings -->
-    <td><center><h1>Reporte de Mensual</center></h1></td>
+    <td><h1>Reporte de Mensual</center></h1></td>
 
    <div class="row">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
