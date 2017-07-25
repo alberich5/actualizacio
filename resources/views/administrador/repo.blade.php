@@ -11,7 +11,7 @@
 					<td width="25">Fecha</td>
 					<td>Nombre</td>
 					<td width="11">Unidad</td>
-					<td>Precio</td>
+					<td >Precio</td>
 					<td>Inicio de Mes</td>
 					<td>Entradas</td>
 					<td>Salidas</td>

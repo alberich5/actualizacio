@@ -2,7 +2,7 @@
 @section ('contenido')
 	<div class="row">
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			<h3>Nueva Salida</h3>
+			<h3>Nueva Salida </h3>
 			@if (count($errors)>0)
 			<div class="alert alert-danger">
 				<ul>
@@ -151,20 +151,21 @@ function mostrarValores(){
 }
 
  function agregar(){
-    datosArticulo=document.getElementById('pidarticulo').value.split('_');
-    
 
+    datosArticulo=document.getElementById('pidarticulo').value.split('_');
     idarticulo=datosArticulo[0];
     articulo=$("#pidarticulo option:selected").text();
     cantidad=$("#pcantidad").val();
+    var a = parseInt(cantidad)
     descuento=$("#pdescuento").val();
     precio_venta=$("#pprecio_venta").val();
     stock=$("#pstock").val();
 
    if(idarticulo !="" && cantidad!="" && cantidad>0 && descuento!=""  )
    {
+    alert(a);
 
-    if(stock>=cantidad){
+    if(a<stock){
         subtotal[cont]=(cantidad*precio_venta);
         total=total+subtotal[cont];
         var fila='<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-warning" onclick="eliminar('+cont+')">x</button></td><td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td><td><input type="number"  name="cantidad[]" value="'+cantidad+'"></td><td><input type="number"  name="precio_venta[]" value="'+precio_venta+'"></td><td>'+subtotal[cont]+'</td></tr>';
@@ -175,7 +176,7 @@ function mostrarValores(){
         evaluar();
         $("#detalles").append(fila);
     }else{
-        swal("La cantidad a vendeer supera el stock ");
+        swal("La cantidad a Salir supera el stock ");
     }
         
 
