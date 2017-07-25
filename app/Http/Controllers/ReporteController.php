@@ -76,6 +76,7 @@ class ReporteController extends Controller
                     $cells->setBackground('#BCF5A9');
                     $cells->setFontFamily('Calibri');
                     $cells->setFontSize(12);
+                    $cells->setColor('#BCF5A9');
                 });
                 
                 //obtengo el mes actual
@@ -101,3 +102,6 @@ class ReporteController extends Controller
         
     }
 }
+
+
+
